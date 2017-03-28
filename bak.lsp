@@ -13,9 +13,8 @@
 	) ;setq
   	; create a directory named (bakName) in the current directory if it does not exist
 	(makedir bakName)
-  	(vl-file-copy (strcat "./" (getvar "DWGNAME")) bakPath)
-  	(princ "\n")
-	(princ "DONE")
+  	(vl-file-copy (strcat (getvar "DWGPREFIX") "\\" (getvar "DWGNAME")) bakPath)
+	(princ (strcat "Created a backup file at: " bakPath))
   	(princ)
 ) ;defun
 
@@ -31,10 +30,10 @@
 ;   local variables
 ;     direxists: name of directory or nil if it does not exist
 (defun makedir (dirname / cdir)
-	(setq cdir (vl-directory-files "" dirname -1))
+	(setq cdir (vl-directory-files (getvar "DWGPREFIX") dirname -1))
   	(if (not cdir)
 		(progn
-			(vl-mkdir (strcat ".//" dirname))
+			(vl-mkdir (strcat (getvar "DWGPREFIX") "//" dirname))
 			(vl-directory-files "" dirname -1)
 		) ;progn
 	) ;if
